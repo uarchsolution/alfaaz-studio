@@ -6,6 +6,39 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+Bengali:wght@500;600&family=Noto+Sans+Bengali:wght@400;500;600&display=swap">
 <title>Alfaaz-e-Hayat Studio</title>
+<meta name="theme-color" content="#1d5c42">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Alfaaz">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>
+(function () {
+  var KEY = 'EjVzTlfj_VrnO8rWuZGEGEfpPBmyFPA1';
+  var STORE = "alfaaz-studio-gate";
+  function granted() { try { return localStorage.getItem(STORE) === "1"; } catch (e) { return false; } }
+  function grant() { try { localStorage.setItem(STORE, "1"); } catch (e) {} }
+  var params = new URLSearchParams(location.search);
+  var hash = new URLSearchParams((location.hash || "").replace(/^#/, ""));
+  if (params.get("k") === KEY || hash.get("k") === KEY) {
+    grant();
+    params.delete("k");
+    var qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+  }
+  if (!granted()) {
+    document.documentElement.classList.add("locked");
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.innerHTML = '<main style="max-width:520px;margin:18vh auto;padding:24px;text-align:center"><h2>Private studio</h2><p>এই স্টুডিও শুধু অ্যাক্সেস লিংক দিয়ে খোলে। লিংক যাদের কাছে আছে, শুধু তারাই স্টুডিওতে ঢুকতে পারবে।</p></main>';
+    });
+    return;
+  }
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
+})();
+</script>
+
 <style>
 :root { --bg:#f3eee4; --surface:#fffdf8; --ink:#241c14; --muted:#6d6256; --primary:#1d5c42; --soft:#e7f2eb; --gold:#8a6232; --goldsoft:#f6edd9; --line:#e4d8c8; --danger:#8a3d32; --sheet:#f7f3eb; }
 html.dark { --bg:#121614; --surface:#1c2420; --ink:#f6f1e8; --muted:#c4bbae; --primary:#9ed9bc; --soft:#243028; --gold:#e4c98a; --goldsoft:#2c2618; --line:#314038; --danger:#f0b2a8; --sheet:#121614; }
